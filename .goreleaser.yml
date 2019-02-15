@@ -10,6 +10,7 @@ builds:
 - env:
   - CGO_ENABLED=0
 archive:
+    format: binary
     replacements:
       darwin: Darwin
       linux: Linux
@@ -32,7 +33,7 @@ release:
     owner: squarescale
     name: hssh
 
-brew:
-  github:
-    owner: squarescale
-    name: homebrew-hssh
+#brew:
+#  github:
+#    owner: squarescale
+#    name: homebrew-hssh
