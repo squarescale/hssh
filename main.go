@@ -23,7 +23,7 @@ func handleJump(args []string, provider string) []string {
 		return args
 	}
 	r := cloudresolver.Resolvers[provider]
-	hosts, err := r.Resolve(jh, nil)
+	hosts, err := r.Resolve(jh, viper.AllSettings())
 	if err != nil {
 		log.Debugf("error while resolving host")
 		panic(err)
@@ -81,9 +81,9 @@ func main() {
 		fallback()
 	}
 	desthost := sc.Hostname()
-	hosts, err := r.Resolve(desthost, nil)
+	hosts, err := r.Resolve(desthost, viper.AllSettings())
 	if len(hosts) == 0 {
-		log.Debugf("fallback: couldn't find destination host")
+		log.Debugf("fallback: could not find destination host")
 		fallback()
 	}
 
