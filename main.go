@@ -51,8 +51,11 @@ func main() {
 	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
 	viper.AutomaticEnv()
 	err := viper.ReadInConfig()
-	if err != nil { // Handle errors reading the config file
-		panic(fmt.Errorf("Fatal error config file: %s \n", err))
+	if viper.GetBool("debug") {
+		log.SetLevel(log.DebugLevel)
+	}
+	if err != nil {
+		log.Debugf("could not find config file")
 	}
 
 	ssh, err := exec.LookPath("ssh")
@@ -60,10 +63,6 @@ func main() {
 		panic("could not find ssh neither in path nor in configuration")
 	}
 	viper.SetDefault("ssh", ssh)
-
-	if viper.GetBool("debug") {
-		log.SetLevel(log.DebugLevel)
-	}
 
 	provider := viper.GetString("provider")
 	if provider == "" {
