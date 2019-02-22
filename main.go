@@ -82,7 +82,7 @@ func main() {
 	desthost := sc.Hostname()
 	hosts, err := r.Resolve(desthost, viper.AllSettings())
 	if len(hosts) == 0 {
-		log.Debugf("fallback: could not find destination host")
+		log.Debugf(fmt.Sprintf("fallback: could not find any host matching destination %s", desthost))
 		fallback()
 	}
 
