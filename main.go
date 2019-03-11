@@ -2,15 +2,18 @@ package main
 
 import (
 	"fmt"
-	log "github.com/sirupsen/logrus"
-	"github.com/spf13/viper"
-	"github.com/squarescale/cloudresolver"
-	"github.com/squarescale/sshcommand"
 	"os"
 	"os/exec"
 	"strings"
 	"syscall"
+
+	"github.com/sirupsen/logrus"
+	"github.com/spf13/viper"
+	"github.com/squarescale/cloudresolver"
+	"github.com/squarescale/sshcommand"
 )
+
+var log logrus.Logger
 
 func fallback() {
 	syscall.Exec(viper.GetString("ssh"), os.Args, os.Environ())
@@ -45,6 +48,7 @@ func handleJump(args []string, provider string) []string {
 }
 
 func main() {
+	log = *logrus.New()
 	viper.SetConfigName("hssh")
 	viper.AddConfigPath("$HOME/.config")
 	viper.SetEnvPrefix("HSSH")
@@ -52,7 +56,7 @@ func main() {
 	viper.AutomaticEnv()
 	err := viper.ReadInConfig()
 	if viper.GetBool("debug") {
-		log.SetLevel(log.DebugLevel)
+		log.SetLevel(logrus.DebugLevel)
 	}
 	if err != nil {
 		log.Debugf("could not find config file")
