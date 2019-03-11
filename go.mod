@@ -26,6 +26,7 @@ require (
 	github.com/grpc-ecosystem/grpc-gateway v1.7.0 // indirect
 	github.com/kisielk/errcheck v1.2.0 // indirect
 	github.com/lunixbochs/vtclean v1.0.0 // indirect
+	github.com/manifoldco/promptui v0.3.2
 	github.com/mattn/go-colorable v0.1.0 // indirect
 	github.com/microcosm-cc/bluemonday v1.0.2 // indirect
 	github.com/openzipkin/zipkin-go v0.1.5 // indirect
@@ -57,7 +58,7 @@ require (
 	go.opencensus.io v0.19.0 // indirect
 	go4.org v0.0.0-20190218023631-ce4c26f7be8e // indirect
 	golang.org/x/build v0.0.0-20190221223049-69dd6b2c22e1 // indirect
-	golang.org/x/crypto v0.0.0-20190219172222-a4c6cb3142f2 // indirect
+	golang.org/x/crypto v0.0.0-20190219172222-a4c6cb3142f2
 	golang.org/x/exp v0.0.0-20190221220918-438050ddec5e // indirect
 	golang.org/x/image v0.0.0-20190220214146-31aff87c08e9 // indirect
 	golang.org/x/oauth2 v0.0.0-20190220154721-9b3c75971fc9 // indirect

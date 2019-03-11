@@ -7,10 +7,12 @@ import (
 	"strings"
 	"syscall"
 
+	"github.com/manifoldco/promptui"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 	cr "github.com/squarescale/cloudresolver"
 	"github.com/squarescale/sshcommand"
+	"golang.org/x/crypto/ssh/terminal"
 )
 
 var log logrus.Logger
@@ -45,6 +47,43 @@ func handleJump(args []string, provider string) []string {
 	}
 
 	return sshcommand.PrependOpt(args, []string{"-J", dest})
+}
+
+func selectHost(hosts []cr.Host) cr.Host {
+	if terminal.IsTerminal(syscall.Stdin) {
+		return hosts[0]
+	}
+	if viper.GetBool("interactive") {
+		tmpls := promptui.SelectTemplates{
+			Active:   `→  {{ .Id | cyan | bold }}`,
+			Inactive: `   {{ .Id | cyan }}`,
+			Selected: `{{ "✔" | green | bold }} {{ "Host" | bold }}: {{ .Id | cyan }}`,
+			Details: `
+provider: {{ .Provider   }}
+region: {{ .Region     }}
+zone: {{ .Zone       }}
+id: {{ .Id         }}
+private ipv4: {{ .PrivateIpv4}}
+private ipv6: {{ .PrivateIpv6}}
+private name: {{ .PrivateName}}
+public ipv4: {{ .PublicIpv4 }}
+public ipv6: {{ .PublicIpv6 }}
+public name: {{ .PublicName }}`,
+		}
+
+		hostPrompt := promptui.Select{
+			Label:     "Host",
+			Items:     hosts,
+			Templates: &tmpls,
+		}
+
+		idx, _, err := hostPrompt.Run()
+		if err == nil {
+			return hosts[idx]
+		}
+		log.Debugf("error in prompt: %s", err)
+	}
+	return hosts[0]
 }
 
 func main() {
@@ -96,9 +135,10 @@ func main() {
 		fallback()
 	}
 
-	hostname := hosts[0].Public
+	host := selectHost(hosts)
+	hostname := host.Public
 	if hostname == "" {
-		hostname = hosts[0].Private
+		hostname = host.Private
 	}
 
 	args = sshcommand.PrependOpt(args, []string{"-o", fmt.Sprintf("Hostname %s", hostname)})
