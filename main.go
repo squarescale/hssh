@@ -9,7 +9,7 @@ import (
 
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
-	"github.com/squarescale/cloudresolver"
+	cr "github.com/squarescale/cloudresolver"
 	"github.com/squarescale/sshcommand"
 )
 
@@ -25,7 +25,7 @@ func handleJump(args []string, provider string) []string {
 		log.Debugf("no jumphost specified")
 		return args
 	}
-	r := cloudresolver.Resolvers[provider]
+	r := cr.Resolvers[provider]
 	hosts, err := r.Resolve(jh, viper.AllSettings())
 	if err != nil {
 		log.Debugf("error while resolving host")
@@ -77,7 +77,7 @@ func main() {
 	args := handleJump(os.Args, provider)
 	args[0] = viper.GetString("ssh")
 
-	r := cloudresolver.Resolvers[provider]
+	r := cr.Resolvers[provider]
 
 	sc, err := sshcommand.New(args)
 	if err != nil {
