@@ -58,6 +58,9 @@ func main() {
 	if viper.GetBool("debug") {
 		log.SetLevel(logrus.DebugLevel)
 	}
+
+	log.Debugf("starting hssh ...")
+
 	if err != nil {
 		log.Debugf("could not find config file")
 	}
@@ -81,13 +84,15 @@ func main() {
 
 	sc, err := sshcommand.New(args)
 	if err != nil {
-		log.Debugf("fallback: ssh command not parseable")
+		log.Debugf("fallback: ssh command not parseable with args: %s", os.Args)
 		fallback()
 	}
 	desthost := sc.Hostname()
 	hosts, err := r.Resolve(desthost, viper.AllSettings())
 	if len(hosts) == 0 {
-		log.Debugf(fmt.Sprintf("fallback: could not find any host matching destination %s", desthost))
+		log.Debugf("fallback: could not find any host matching destination %s", desthost)
+		log.Debugf("%v", os.Args)
+		log.Debugf("%v", viper.AllSettings())
 		fallback()
 	}
 
