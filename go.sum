@@ -239,6 +239,8 @@ github.com/squarescale/cloudresolver v0.0.0-20190215073555-6256a4f7aca6 h1:8q9rN
 github.com/squarescale/cloudresolver v0.0.0-20190215073555-6256a4f7aca6/go.mod h1:HDQQ5DqN0NstyoY+b870lVfSaLW5hZRg0udFYDpJ+gw=
 github.com/squarescale/cloudresolver v0.0.0-20190222094923-892974de3233 h1:VzTmzawq/l/Qi8sqg6HExx4OCQHrjCwjQSfz/vErvis=
 github.com/squarescale/cloudresolver v0.0.0-20190222094923-892974de3233/go.mod h1:HDQQ5DqN0NstyoY+b870lVfSaLW5hZRg0udFYDpJ+gw=
+github.com/squarescale/cloudresolver v0.0.0-20190308221611-19d5587ec429 h1:OShwniR3Sije0b9L+itdl8yY6Zg1RfljnvpUCtdiGq0=
+github.com/squarescale/cloudresolver v0.0.0-20190308221611-19d5587ec429/go.mod h1:HDQQ5DqN0NstyoY+b870lVfSaLW5hZRg0udFYDpJ+gw=
 github.com/squarescale/sshcommand v0.0.0-20190214222043-f39e01db0387 h1:jXmlRg5yP4M5q9VpI1lMjHPJEzwO67V1EtshqKV1GyI=
 github.com/squarescale/sshcommand v0.0.0-20190214222043-f39e01db0387/go.mod h1:HZnRpCcUfAx3t9RaK/Gh5NS2jTGXYXcE+prfiG/hlt8=
 github.com/squarescale/sshcommand v0.0.0-20190311110043-d5b1f8b62c87 h1:Of/Po1QUMenVZ7QjhetJLQ5I911d7GMNJNk8+jRxieE=
