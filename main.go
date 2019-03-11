@@ -75,6 +75,7 @@ func main() {
 	}
 
 	args := handleJump(os.Args, provider)
+	args[0] = viper.GetString("ssh")
 
 	r := cloudresolver.Resolvers[provider]
 
