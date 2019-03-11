@@ -51,7 +51,7 @@ require (
 	github.com/spf13/afero v1.2.1 // indirect
 	github.com/spf13/viper v1.3.1
 	github.com/squarescale/cloudresolver v0.0.0-20190222094923-892974de3233
-	github.com/squarescale/sshcommand v0.0.0-20190214222043-f39e01db0387
+	github.com/squarescale/sshcommand v0.0.0-20190311110043-d5b1f8b62c87
 	github.com/stretchr/testify v1.3.0 // indirect
 	github.com/ugorji/go/codec v0.0.0-20190204201341-e444a5086c43 // indirect
 	go.opencensus.io v0.19.0 // indirect
