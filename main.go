@@ -50,7 +50,7 @@ func handleJump(args []string, provider string) []string {
 }
 
 func selectHost(hosts []cr.Host) cr.Host {
-	if terminal.IsTerminal(syscall.Stdin) {
+	if !terminal.IsTerminal(syscall.Stdin) {
 		return hosts[0]
 	}
 	if viper.GetBool("interactive") {
