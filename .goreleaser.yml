@@ -33,7 +33,7 @@ release:
     owner: squarescale
     name: hssh
 
-#brew:
-#  github:
-#    owner: squarescale
-#    name: homebrew-hssh
+brew:
+  github:
+    owner: squarescale
+    name: homebrew-hssh
