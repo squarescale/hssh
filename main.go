@@ -113,17 +113,20 @@ func main() {
 		fallback()
 	}
 
-	args := handleJump(os.Args, provider)
-	args[0] = viper.GetString("ssh")
-
-	r := cr.Resolvers[provider]
-
+	args := os.Args
 	sc, err := sshcommand.New(args)
 	if err != nil {
 		log.Debugf("fallback: ssh command not parseable with args: %s", os.Args)
 		fallback()
 	}
 	desthost := sc.Hostname()
+	if desthost != viper.GetString(fmt.Sprintf("providers.%s.jumphost", provider)) {
+		args = handleJump(os.Args, provider)
+	}
+	args[0] = viper.GetString("ssh")
+
+	r := cr.Resolvers[provider]
+
 	hosts, err := r.Resolve(desthost, viper.AllSettings())
 	if len(hosts) == 0 {
 		log.Debugf("fallback: could not find any host matching destination %s", desthost)
