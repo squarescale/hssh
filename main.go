@@ -142,5 +142,6 @@ func main() {
 	}
 
 	args = sshcommand.PrependOpt(args, []string{"-o", fmt.Sprintf("Hostname %s", hostname)})
+	log.Debugf("executed command: %s", args)
 	syscall.Exec(viper.GetString("ssh"), args, os.Environ())
 }
