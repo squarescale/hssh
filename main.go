@@ -39,13 +39,10 @@ func handleJump(args []string, provider string) []string {
 	}
 
 	ju := viper.GetString(fmt.Sprintf("providers.%s.jumpuser", provider))
-	dest := ""
+	dest := hosts[0].Public
 	if ju != "" {
-		dest = fmt.Sprintf("%s@%s", ju, hosts[0].Public)
-	} else {
-		dest = hosts[0].Public
+		dest = fmt.Sprintf("%s@%s", ju, dest)
 	}
-
 	return sshcommand.PrependOpt(args, []string{"-J", dest})
 }
 
