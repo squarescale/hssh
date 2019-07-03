@@ -24,17 +24,17 @@ func fallback() {
 func handleJump(args []string, provider string) []string {
 	jh := viper.GetString(fmt.Sprintf("providers.%s.jumphost", provider))
 	if jh == "" {
-		log.Debugf("no jumphost specified")
+		log.Errorf("no jumphost specified")
 		return args
 	}
 	r := cr.Resolvers[provider]
 	hosts, err := r.Resolve(jh, viper.AllSettings())
 	if err != nil {
-		log.Debugf("error while resolving host")
+		log.Errorf("error while resolving host")
 		panic(err)
 	}
 	if len(hosts) == 0 {
-		log.Debugf("resolution didn't returned any hosts")
+		log.Errorf("resolution didn't returned any hosts")
 		return args
 	}
 
@@ -43,7 +43,9 @@ func handleJump(args []string, provider string) []string {
 	if ju != "" {
 		dest = fmt.Sprintf("%s@%s", ju, dest)
 	}
-	return sshcommand.PrependOpt(args, []string{"-J", dest})
+	ssh_args_str := sshcommand.PrependOpt(args, []string{"-J", dest})
+	log.Debugf("Adding ssh arguments: %#v", ssh_args_str)
+	return ssh_args_str
 }
 
 func selectHost(hosts []cr.Host) cr.Host {
@@ -78,7 +80,7 @@ public name: {{ .PublicName }}`,
 		if err == nil {
 			return hosts[idx]
 		}
-		log.Debugf("error in prompt: %s", err)
+		log.Errorf("error in prompt: %s", err)
 	}
 	return hosts[0]
 }
@@ -98,25 +100,26 @@ func main() {
 	log.Debugf("starting hssh ...")
 
 	if err != nil {
-		log.Debugf("could not find config file")
+		log.Errorf("could not find config file")
 	}
 
 	ssh, err := exec.LookPath("ssh")
 	if err != nil {
 		panic("could not find ssh neither in path nor in configuration")
 	}
+	log.Debugf("Using ssh command found at: %#v", ssh)
 	viper.SetDefault("ssh", ssh)
 
 	provider := viper.GetString("provider")
 	if provider == "" {
-		log.Debugf("fallback: no provider specified")
+		log.Warnf("fallback: no provider specified")
 		fallback()
 	}
 
 	args := os.Args
 	sc, err := sshcommand.New(args)
 	if err != nil {
-		log.Debugf("fallback: ssh command not parseable with args: %s", os.Args)
+		log.Warnf("fallback: ssh command not parseable with args: %s", os.Args)
 		fallback()
 	}
 	desthost := sc.Hostname()
@@ -129,9 +132,9 @@ func main() {
 
 	hosts, err := r.Resolve(desthost, viper.AllSettings())
 	if len(hosts) == 0 {
-		log.Debugf("fallback: could not find any host matching destination %s", desthost)
-		log.Debugf("%v", os.Args)
-		log.Debugf("%v", viper.AllSettings())
+		log.Warnf("fallback: could not find any host matching destination %s", desthost)
+		log.Warnf("%v", os.Args)
+		log.Warnf("%v", viper.AllSettings())
 		fallback()
 	}
 
