@@ -24,12 +24,14 @@ require (
 	github.com/gorilla/mux v1.7.0 // indirect
 	github.com/gregjones/httpcache v0.0.0-20190212212710-3befbb6ad0cc // indirect
 	github.com/grpc-ecosystem/grpc-gateway v1.7.0 // indirect
+	github.com/kevinburke/ssh_config v0.0.0-20190630040420-2e50c441276c
 	github.com/kisielk/errcheck v1.2.0 // indirect
 	github.com/lunixbochs/vtclean v1.0.0 // indirect
 	github.com/manifoldco/promptui v0.3.2
 	github.com/mattn/go-colorable v0.1.0 // indirect
 	github.com/microcosm-cc/bluemonday v1.0.2 // indirect
 	github.com/openzipkin/zipkin-go v0.1.5 // indirect
+	github.com/pelletier/go-buffruneio v0.2.0 // indirect
 	github.com/prometheus/client_model v0.0.0-20190129233127-fd36f4220a90 // indirect
 	github.com/prometheus/common v0.2.0 // indirect
 	github.com/prometheus/procfs v0.0.0-20190219184716-e4d4a2206da0 // indirect

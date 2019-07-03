@@ -4,10 +4,12 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"strings"
 	"syscall"
 
 	"github.com/manifoldco/promptui"
+	"github.com/kevinburke/ssh_config"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 	cr "github.com/squarescale/cloudresolver"
@@ -85,6 +87,26 @@ public name: {{ .PublicName }}`,
 	return hosts[0]
 }
 
+func getSSHConfigOptions(hostname string) [][]string {
+	var ret [][]string
+	f, err := os.Open(filepath.Join(os.Getenv("HOME"), ".ssh", "config"))
+	defer f.Close()
+	if err != nil {
+		log.Errorf("Error opening ~/.ssh/config: %#v", err)
+		return ret
+	}
+	cfg, err := ssh_config.Decode(f)
+	v1, _ := cfg.Get(hostname, "UserKnownHostsFile")
+	if len(v1) > 0 {
+		ret = append(ret, []string{"UserKnownHostsFile", v1})
+	}
+	v2, _ := cfg.Get(hostname, "StrictHostKeyChecking")
+	if len(v2) > 0 {
+		ret = append(ret, []string{"StrictHostKeyChecking", v2})
+	}
+	return ret
+}
+
 func main() {
 	log = *logrus.New()
 	viper.SetConfigName("hssh")
@@ -142,6 +164,11 @@ func main() {
 	hostname := host.Public
 	if hostname == "" {
 		hostname = host.Private
+	}
+
+	nArgs := getSSHConfigOptions(hostname)
+	for _, a := range nArgs {
+		args = sshcommand.PrependOpt(args, []string{"-o", fmt.Sprintf("%s %s", a[0], a[1])})
 	}
 
 	args = sshcommand.PrependOpt(args, []string{"-o", fmt.Sprintf("Hostname %s", hostname)})
