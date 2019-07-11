@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"os"
 	"os/exec"
 	"strings"
@@ -14,8 +15,6 @@ import (
 	"github.com/squarescale/sshcommand"
 	"golang.org/x/crypto/ssh/terminal"
 )
-
-var log logrus.Logger
 
 func fallback() {
 	syscall.Exec(viper.GetString("ssh"), os.Args, os.Environ())
@@ -90,8 +89,9 @@ public name: {{ .PublicName }}`,
 	return hosts[0]
 }
 
+var log = logrus.New()
+
 func main() {
-	log = *logrus.New()
 	viper.SetConfigName("hssh")
 	viper.AddConfigPath("$HOME/.config")
 	viper.SetEnvPrefix("HSSH")
@@ -100,6 +100,19 @@ func main() {
 	err := viper.ReadInConfig()
 	if viper.GetBool("debug") {
 		log.SetLevel(logrus.DebugLevel)
+	}
+
+	logfn := viper.GetString("logfile")
+	if logfn != "" {
+		logfile, err := os.OpenFile(logfn, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+		if err != nil {
+			panic(fmt.Sprintf("couldn't open logfile: %s: %s", logfn, err))
+		}
+		log.SetOutput(logfile)
+	} else {
+		if !terminal.IsTerminal(syscall.Stdout) {
+			log.SetOutput(ioutil.Discard)
+		}
 	}
 
 	log.Debugf("starting hssh ...")
