@@ -27,6 +27,10 @@ func handleJump(args []string, provider string) []string {
 		return args
 	}
 	r := cr.Resolvers[provider]
+	if r == nil {
+		log.Errorf("fallback: no resolver found for provider: %s", provider)
+		return args
+	}
 	hosts, err := r.Resolve(jh, viper.AllSettings())
 	if err != nil {
 		log.Debugf(
