@@ -30,8 +30,15 @@ func handleJump(args []string, provider string) []string {
 	r := cr.Resolvers[provider]
 	hosts, err := r.Resolve(jh, viper.AllSettings())
 	if err != nil {
-		log.Debugf("error while resolving host")
-		panic(err)
+		log.Debugf(
+			fmt.Sprintf(
+				"Couldn't resolve host named \"%s\" with provider \"%s\", error: %s",
+				jh,
+				provider,
+				err.Error(),
+			),
+		)
+		return args
 	}
 	if len(hosts) == 0 {
 		log.Debugf("resolution didn't returned any hosts")
@@ -128,6 +135,16 @@ func main() {
 	r := cr.Resolvers[provider]
 
 	hosts, err := r.Resolve(desthost, viper.AllSettings())
+	if err != nil {
+		log.Debugf(
+			fmt.Sprintf(
+				"Couldn't resolve host named \"%s\" with provider \"%s\", error: %s",
+				desthost,
+				provider,
+				err.Error(),
+			),
+		)
+	}
 	if len(hosts) == 0 {
 		log.Debugf("fallback: could not find any host matching destination %s", desthost)
 		log.Debugf("%v", os.Args)
