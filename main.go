@@ -149,6 +149,10 @@ func main() {
 	args[0] = viper.GetString("ssh")
 
 	r := cr.Resolvers[provider]
+	if r == nil {
+		log.Warnf("fallback: no resolver found for provider: %s", provider)
+		fallback()
+	}
 
 	hosts, err := r.Resolve(desthost, viper.AllSettings())
 	if err != nil {
