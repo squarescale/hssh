@@ -33,7 +33,7 @@ func handleJump(args []string, provider string) []string {
 	}
 	hosts, err := r.Resolve(jh, viper.AllSettings())
 	if err != nil {
-		log.Debugf(
+		log.Errorf(
 			fmt.Sprintf(
 				"Couldn't resolve host named \"%s\" with provider \"%s\", error: %s",
 				jh,
