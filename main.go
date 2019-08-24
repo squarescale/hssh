@@ -5,6 +5,8 @@ import (
 	"io/ioutil"
 	"os"
 	"os/exec"
+	"reflect"
+	"regexp"
 	"strings"
 	"syscall"
 
@@ -60,9 +62,102 @@ func handleJump(args []string, provider string) []string {
 	return ssh_args_str
 }
 
-func selectHost(hosts []cr.Host) cr.Host {
+//
+// Function which tells if the input host matches
+// the input filter given as a pair of strings [field_regex,value_regexp]
+//
+func hostMatch(f *cr.Host, filterstr []string) bool {
+	// Use Golang reflection to walk over host structure
+	val := reflect.ValueOf(f).Elem()
+	// Parse all fields of structure
+	for i := 0; i < val.NumField(); i++ {
+		// Extract field value
+		valueField := val.Field(i)
+		// Extract field name and type
+		typeField := val.Type().Field(i)
+		// Deep trace
+		log.Tracef("Field Name: %s,\t Field Value: %v\n", typeField.Name, valueField.Interface())
+		// Check if field name matches field_regex
+		matched1, err1 := regexp.MatchString(filterstr[0], strings.ToLower(typeField.Name))
+		// Any error should be printed out (bad regexp, ...)
+		if err1 != nil {
+			log.Errorf("Error matching regexp %s: %#v", filterstr[0], err1)
+		} else {
+			// If field name matches, go on with field value checking
+			if matched1 {
+				// Deep trace
+				log.Tracef("Field name: %s is matching %s", typeField.Name, filterstr[0])
+				// Check if field value matches value_regex
+				matched2, err2 := regexp.MatchString(filterstr[1], valueField.Interface().(string))
+				// Any error should be printed out (bad regexp, ...)
+				if err2 != nil {
+					log.Errorf("Error matching regexp %s: %#v", filterstr[1], err2)
+				} else {
+					// If field value matches, return true
+					if matched2 {
+						// Better debug trace
+						log.Debugf("Field value: %#v of field %s is matching %s", valueField.Interface(), typeField.Name, filterstr[1])
+						return true
+					} else {
+						// Deep trace
+						log.Tracef("Field value: %#v not matching %s", valueField.Interface(), filterstr[1])
+					}
+				}
+			} else {
+				// Deep trace
+				log.Tracef("Field name: %s not matching %s", typeField.Name, filterstr[0])
+			}
+		}
+	}
+	// no match found
+	return false
+}
+
+//
+// Filter hosts based on given string criteria
+// in the form field_regexp:value_regexp
+//
+func filterHosts(hosts []cr.Host, filter string) cr.Host {
+	// Default return value is 1st host in list
+	host := hosts[0]
+	// No filter, return default value
+	if filter == "" {
+		return host
+	}
+	// Parse input filter string
+	fitems := strings.Split(filter, ":")
+	// Check filter syntax validity
+	if len(fitems) != 2 {
+		log.Errorf("Bad filter: %s (must be key_regexp:val_regexp)", filter)
+		return host
+	}
+	// Initialize selected/matching host list to empty list
+	shosts := []cr.Host{}
+	// Loop over input hosts and add to list if they match
+	for _, host := range hosts {
+		if hostMatch(&host, fitems) {
+			shosts = append(shosts, host)
+		}
+	}
+	// No match, exit from program
+	if len(shosts) == 0 {
+		log.Errorf("No host matching filter: %s", filter)
+		os.Exit(2)
+	}
+	// Multiple matches, exit from program
+	if len(shosts) > 1 {
+		log.Errorf("Multiple hosts matching filter: %s", filter)
+		os.Exit(3)
+	}
+	// Return single selected/matching host
+	host = shosts[0]
+	log.Debugf("Connecting to host: %#v", host)
+	return host
+}
+
+func selectHost(hosts []cr.Host, filter string) cr.Host {
 	if !terminal.IsTerminal(syscall.Stdin) {
-		return hosts[0]
+		return filterHosts(hosts, filter)
 	}
 	if viper.GetBool("interactive") {
 		tmpls := promptui.SelectTemplates{
@@ -96,7 +191,7 @@ public name: {{ .PublicName }}`,
 		log.Errorf("error in prompt: %s", err)
 		os.Exit(1)
 	}
-	return hosts[0]
+	return filterHosts(hosts, filter)
 }
 
 var log = logrus.New()
@@ -180,7 +275,7 @@ func main() {
 		fallback()
 	}
 
-	host := selectHost(hosts)
+	host := selectHost(hosts, viper.GetString("filter"))
 	hostname := host.Public
 	if hostname == "" {
 		hostname = host.Private
