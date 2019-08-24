@@ -8,12 +8,14 @@ import (
 	"strings"
 	"syscall"
 
+	"golang.org/x/crypto/ssh/terminal"
+
 	"github.com/manifoldco/promptui"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
+
 	cr "github.com/squarescale/cloudresolver"
 	"github.com/squarescale/sshcommand"
-	"golang.org/x/crypto/ssh/terminal"
 )
 
 func fallback() {
@@ -68,6 +70,7 @@ func selectHost(hosts []cr.Host) cr.Host {
 			Inactive: `   {{ .Id | cyan }}`,
 			Selected: `{{ "✔" | green | bold }} {{ "Host" | bold }}: {{ .Id | cyan }}`,
 			Details: `
+instance name: {{ .InstanceName }}
 provider: {{ .Provider   }}
 region: {{ .Region     }}
 zone: {{ .Zone       }}
