@@ -91,6 +91,7 @@ public name: {{ .PublicName }}`,
 			return hosts[idx]
 		}
 		log.Errorf("error in prompt: %s", err)
+		os.Exit(1)
 	}
 	return hosts[0]
 }
