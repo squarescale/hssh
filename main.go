@@ -57,7 +57,20 @@ func handleJump(args []string, provider string) []string {
 	if ju != "" {
 		dest = fmt.Sprintf("%s@%s", ju, dest)
 	}
-	ssh_args_str := sshcommand.PrependOpt(args, []string{"-J", dest})
+	// Check if ssh version supports -J as a valid option
+	cmd := exec.Command("ssh", "-J")
+	cmd.Env = append(os.Environ(), "LC_ALL=C")
+	out, err := cmd.CombinedOutput()
+	matched, err := regexp.MatchString("option requires an argument", string(out))
+	if err != nil {
+		panic(err)
+	}
+	var ssh_args_str []string
+	if matched {
+		ssh_args_str = sshcommand.PrependOpt(args, []string{"-J", dest})
+	} else {
+		ssh_args_str = sshcommand.PrependOpt(args, []string{"-o", fmt.Sprintf("ProxyCommand ssh -W %%h:%%p %s", dest)})
+	}
 	log.Debugf("Adding ssh arguments: %#v", ssh_args_str)
 	return ssh_args_str
 }
