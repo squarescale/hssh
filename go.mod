@@ -13,7 +13,7 @@ require (
 	github.com/sirupsen/logrus v1.3.0
 	github.com/spf13/afero v1.2.1 // indirect
 	github.com/spf13/viper v1.3.1
-	github.com/squarescale/cloudresolver v0.0.0-20190824051432-de3eece6ac93
+	github.com/squarescale/cloudresolver v0.0.0-20190308221611-b60c2a377607
 	github.com/squarescale/sshcommand v0.0.0-20190311110043-d5b1f8b62c87
 	github.com/stretchr/testify v1.3.0 // indirect
 	go.opencensus.io v0.18.1-0.20181204023538-aab39bd6a98b // indirect

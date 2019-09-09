@@ -186,8 +186,8 @@ github.com/spf13/pflag v1.0.3/go.mod h1:DYY7MBk1bdzusC3SYhjObp+wFpr4gzcvqqNjLnIn
 github.com/spf13/viper v1.3.1 h1:5+8j8FTpnFV4nEImW/ofkzEt8VoOiLXxdYIDsB73T38=
 github.com/spf13/viper v1.3.1/go.mod h1:ZiWeW+zYFKm7srdB9IoDzzZXaJaI5eL9QjNiN/DMA2s=
 github.com/squarescale/cloudresolver v0.0.0-20190213222711-726cca2c26cc/go.mod h1:HDQQ5DqN0NstyoY+b870lVfSaLW5hZRg0udFYDpJ+gw=
-github.com/squarescale/cloudresolver v0.0.0-20190824051432-de3eece6ac93 h1:qk2XwIk8ql02MAwqcl5gges2FF5p7B+OCysZ08HcrsA=
-github.com/squarescale/cloudresolver v0.0.0-20190824051432-de3eece6ac93/go.mod h1:OlBp0ZRBe4JBPHIW8cmfXBqAkWuiAS3u2KefzYG91II=
+github.com/squarescale/cloudresolver v0.0.0-20190308221611-b60c2a377607 h1:ZQr5a6hrqzS6UBhM2FU3lexc7Mf5T594tCY6YCb6UO4=
+github.com/squarescale/cloudresolver v0.0.0-20190308221611-b60c2a377607/go.mod h1:OlBp0ZRBe4JBPHIW8cmfXBqAkWuiAS3u2KefzYG91II=
 github.com/squarescale/sshcommand v0.0.0-20190311110043-d5b1f8b62c87 h1:Of/Po1QUMenVZ7QjhetJLQ5I911d7GMNJNk8+jRxieE=
 github.com/squarescale/sshcommand v0.0.0-20190311110043-d5b1f8b62c87/go.mod h1:HZnRpCcUfAx3t9RaK/Gh5NS2jTGXYXcE+prfiG/hlt8=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
