@@ -1,5 +1,8 @@
 # This is an example goreleaser.yaml file with some sane defaults.
 # Make sure to check the documentation at http://goreleaser.com
+env:
+  - GOPROXY=https://gocenter.io
+  - GO111MODULE=on
 before:
   hooks:
     # you may remove this if you don't use vgo
@@ -33,7 +36,8 @@ release:
     owner: squarescale
     name: hssh
 
-brew:
-  github:
-    owner: squarescale
-    name: homebrew-hssh
+brews:
+  -
+    github:
+      owner: squarescale
+      name: homebrew-hssh
