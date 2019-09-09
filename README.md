@@ -16,7 +16,7 @@ You can download official binaries from https://github.com/squarescale/hssh/rele
 On MacOSX, use the following:
 
 ```
-brew install awscli && brew tap squarescale/sqssh && brew install sqssh
+brew install awscli && brew tap squarescale/hssh && brew install hssh
 ```
 
 Please note also that to connect to the your infrastructure where you have set up some common SSH keys,
@@ -25,7 +25,7 @@ you will need to launch the following commands:
 ```
 export SSH_AUTH_SOCK=/tmp/ssh-agent.sock
 eval $(ssh-agent -a $SSH_AUTH_SOCK)
-ssh-add your-privte-key
+ssh-add your-private-key
 ```
 
 ### Rebuilding
@@ -56,13 +56,13 @@ providers:
     zone: europe-west1-b
 ```
 
-Please note also that most of the variables defined there can be superseeded on the command line by uppercasing them and prefixing by HSSH_. For instance:
+Please note also that most of the variables defined there can be superseeded on the command-line by uppercasing them and prefixing by HSSH_. For instance:
 
 ```
-HSSH_DEBUG=1 AWS_PROFILE=dev HSSH_INTERACTIVE=1 hssh -o "StrictHostKeyChecking no" -o "UserKnownHostsFile /dev/null" core@nomad
+HSSH__DEBUG=1 AWS_PROFILE=dev HSSH_INTERACTIVE=1 hssh -o "StrictHostKeyChecking no" -o "UserKnownHostsFile /dev/null" core@nomad
 ```
 
-Please note also the quotes around some of the standard ssh command line options which are required for hssh to properly pass them down to the underlying ssh command.
+Please also note the quotes around some of the standard ssh command-line options which are required for hssh to properly pass them down to the underlying ssh command.
 
 ### Advanced usage
 
