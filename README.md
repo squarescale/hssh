@@ -59,7 +59,7 @@ providers:
 Please note also that most of the variables defined there can be superseeded on the command-line by uppercasing them and prefixing by HSSH_. For instance:
 
 ```
-HSSH__DEBUG=1 AWS_PROFILE=dev HSSH_INTERACTIVE=1 hssh -o "StrictHostKeyChecking no" -o "UserKnownHostsFile /dev/null" core@nomad
+HSSH_DEBUG=1 AWS_PROFILE=dev HSSH_INTERACTIVE=1 hssh -o "StrictHostKeyChecking no" -o "UserKnownHostsFile /dev/null" core@nomad
 ```
 
 Please also note the quotes around some of the standard ssh command-line options which are required for hssh to properly pass them down to the underlying ssh command.
