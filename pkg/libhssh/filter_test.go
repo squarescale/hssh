@@ -42,7 +42,7 @@ func (s *FilterTestSuite) TestNewFilterFromString() {
 			expectedFilter: nil,
 		},
 		{
-			desc:           "Matchable field name && valid value regexp",
+			desc:           "Matchable field name && invalid value regexp",
 			filter:         "id:[syntax error)",
 			expectError:    true,
 			expectedFilter: nil,
