@@ -68,7 +68,7 @@ func handleJump(args []string, provider string) []string {
 	out, err := cmd.CombinedOutput()
 	matched, err := regexp.MatchString("option requires an argument", string(out))
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	var ssh_args_str []string
 	if matched {
@@ -176,7 +176,7 @@ func main() {
 	if logfn != "" {
 		logfile, err := os.OpenFile(logfn, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 		if err != nil {
-			panic(fmt.Sprintf("couldn't open logfile: %s: %s", logfn, err))
+			log.Fatalf("couldn't open logfile: %q: %q", logfn, err)
 		}
 		log.SetOutput(logfile)
 	} else {
@@ -189,9 +189,10 @@ func main() {
 
 	ssh, err := exec.LookPath("ssh")
 	if err != nil {
-		panic("could not find ssh neither in path nor in configuration")
+		log.Fatal("could not find ssh neither in path nor in configuration")
 	}
-	log.Debugf("Using ssh command found at: %#v", ssh)
+
+	log.Debugf("Using ssh command found at: %q", ssh)
 	viper.SetDefault("ssh", ssh)
 
 	provider := viper.GetString("provider")
@@ -206,10 +207,12 @@ func main() {
 		log.Warnf("fallback: ssh command not parseable with args: %s", os.Args)
 		fallback()
 	}
+
 	desthost := sc.Hostname()
 	if desthost != viper.GetString(fmt.Sprintf("providers.%s.jumphost", provider)) {
 		args = handleJump(os.Args, provider)
 	}
+
 	args[0] = viper.GetString("ssh")
 
 	r := cr.Resolvers[provider]
