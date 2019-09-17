@@ -1,27 +1,18 @@
 package libhssh
 
 import (
+	"errors"
 	"fmt"
 	"reflect"
 	"regexp"
+	"sort"
 	"strings"
 
 	cr "github.com/squarescale/cloudresolver"
 )
 
-var (
-	hostAttributes = map[string]string{}
-)
-
-func init() {
-	hostAttributes = initHostAttributes()
-}
-
-// ---
-
 type Filter struct {
-	fieldName       string
-	structFieldName string
+	matchableFields []string
 	pattern         *regexp.Regexp
 }
 
@@ -31,10 +22,9 @@ func NewFilterFromString(s string) (*Filter, error) {
 		return nil, fmt.Errorf("Invalid filter format %q", s)
 	}
 
-	n := strings.ToLower(parts[0])
-
-	if !validFieldName(n) {
-		return nil, fmt.Errorf("Invalid field name %q", n)
+	mf, err := matchableFields(parts[0])
+	if err != nil {
+		return nil, err
 	}
 
 	reg, err := regexp.Compile(parts[1])
@@ -43,8 +33,7 @@ func NewFilterFromString(s string) (*Filter, error) {
 	}
 
 	return &Filter{
-		fieldName:       n,
-		structFieldName: hostAttributes[n],
+		matchableFields: mf,
 		pattern:         reg,
 	}, nil
 }
@@ -52,31 +41,46 @@ func NewFilterFromString(s string) (*Filter, error) {
 func (f *Filter) HostMatch(h *cr.Host) bool {
 	val := reflect.ValueOf(h).Elem()
 
-	s, ok := val.FieldByName(f.structFieldName).Interface().(string)
-	if !ok {
-		return false
-	}
+	for _, mf := range f.matchableFields {
+		s, ok := val.FieldByName(mf).Interface().(string)
+		if !ok {
+			return false
+		}
 
-	return f.pattern.MatchString(s)
+		matched := f.pattern.MatchString(s)
+		if matched {
+			return true
+		}
+
+	}
+	return false
 }
 
 // ---
 
-func initHostAttributes() map[string]string {
-	val := reflect.ValueOf(new(cr.Host)).Elem()
-
-	buff := map[string]string{}
-
-	for i := 0; i < val.NumField(); i++ {
-		v := val.Type().Field(i).Name
-		k := strings.ToLower(v)
-		buff[k] = v
+func matchableFields(pattern string) ([]string, error) {
+	reg, err := regexp.Compile(pattern)
+	if err != nil {
+		return []string{}, err
 	}
 
-	return buff
-}
+	val := reflect.ValueOf(new(cr.Host)).Elem()
 
-func validFieldName(n string) bool {
-	_, found := hostAttributes[n]
-	return found
+	buff := []string{}
+
+	for i := 0; i < val.NumField(); i++ {
+		n := val.Type().Field(i).Name
+
+		if reg.MatchString(strings.ToLower(n)) {
+			buff = append(buff, n)
+		}
+	}
+
+	if len(buff) == 0 {
+		return buff, errors.New("No matchable fields")
+	}
+
+	sort.Strings(buff)
+
+	return buff, nil
 }

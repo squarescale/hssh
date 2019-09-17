@@ -13,12 +13,6 @@ type FilterTestSuite struct {
 	suite.Suite
 }
 
-func (s *FilterTestSuite) SetupSuite() {
-}
-
-func (s *FilterTestSuite) SetupTest() {
-}
-
 func (s *FilterTestSuite) TestNewFilterFromString() {
 	reg, err := regexp.Compile("foo")
 	s.Nil(err)
@@ -42,25 +36,29 @@ func (s *FilterTestSuite) TestNewFilterFromString() {
 			expectedFilter: nil,
 		},
 		{
-			desc:           "Invalid field name && valid regexp",
+			desc:           "Unmatchable field name && valid value regexp",
 			filter:         "xxx:valid",
 			expectError:    true,
 			expectedFilter: nil,
 		},
 		{
-			desc:           "Valid field name && invalid regexp",
+			desc:           "Matchable field name && valid value regexp",
 			filter:         "id:[syntax error)",
 			expectError:    true,
 			expectedFilter: nil,
 		},
 		{
 			desc:        "Valid field name && valid regexp",
-			filter:      fmt.Sprintf("ID:%s", reg),
+			filter:      fmt.Sprintf("ip:%s", reg),
 			expectError: false,
 			expectedFilter: &Filter{
-				fieldName:       "id",
-				structFieldName: "Id",
-				pattern:         reg,
+				matchableFields: []string{
+					"PrivateIpv4",
+					"PrivateIpv6",
+					"PublicIpv4",
+					"PublicIpv6",
+				},
+				pattern: reg,
 			},
 		},
 	}
