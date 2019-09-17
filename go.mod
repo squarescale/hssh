@@ -15,8 +15,7 @@ require (
 	github.com/spf13/viper v1.3.1
 	github.com/squarescale/cloudresolver v0.0.0-20190308221611-b60c2a377607
 	github.com/squarescale/sshcommand v0.0.0-20190311110043-d5b1f8b62c87
-	github.com/stretchr/testify v1.3.0 // indirect
-	go.opencensus.io v0.18.1-0.20181204023538-aab39bd6a98b // indirect
+	github.com/stretchr/testify v1.3.0
 	golang.org/x/crypto v0.0.0-20190219172222-a4c6cb3142f2
 	golang.org/x/lint v0.0.0-20181217174547-8f45f776aaf1 // indirect
 	golang.org/x/oauth2 v0.0.0-20190220154721-9b3c75971fc9 // indirect
