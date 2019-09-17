@@ -71,12 +71,19 @@ func handleJump(args []string, provider string) []string {
 		log.Fatal(err)
 	}
 	var ssh_args_str []string
-	if matched {
-		ssh_args_str = sshcommand.PrependOpt(args, []string{"-J", dest})
-	} else {
-		ssh_args_str = sshcommand.PrependOpt(args, []string{"-o", fmt.Sprintf("ProxyCommand ssh -W %%h:%%p %s", dest)})
+
+	opts := []string{
+		"-o", fmt.Sprintf("ProxyCommand ssh -W %%h:%%p %s", dest),
 	}
+
+	if matched {
+		opts = []string{"-J", dest}
+	}
+
+	ssh_args_str = sshcommand.PrependOpt(args, opts)
+
 	log.Debugf("Adding ssh arguments: %#v", ssh_args_str)
+
 	return ssh_args_str
 }
 
