@@ -33,13 +33,27 @@ ssh-add your-private-key
 hssh can easily be rebuilt using Golang installed version (for instance using gvm https://github.com/moovweb/gvm):
 
 ```
-gvm install go1.12.6 -b -B && \
+gvm install $(gvm listall | grep go1.12 | tail -1) -b -B && \
+gvm use $(gvm listall | grep go1.12 | tail -1) && \
 git clone https://github.com/squarescale/hssh && \
 cd hssh && \
 go build .
 ```
 
 The new hssh binary is located in the locally cloned git repository.
+
+### Making changes in modules used by hssh
+
+You can get versions of Go modules using the following command:
+
+```go list -m -versions github.com/squarescale/cloudresolver```
+
+If you create a test branch for a module, you can retrieve the corresponding tag to insert in go.mod
+by using the following command:
+
+```go list -m  github.com/squarescale/cloudresolver@<branch-name>```
+
+You then need to update go.mod file accordingly before rebuilding.
 
 ### Configuration file & usage
 
