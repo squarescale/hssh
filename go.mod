@@ -16,12 +16,11 @@ require (
 	github.com/squarescale/cloudresolver v0.0.0-20191108110146-72fc6953c899
 	github.com/squarescale/sshcommand v0.0.0-20190311110043-d5b1f8b62c87
 	github.com/stretchr/testify v1.3.0
-	golang.org/x/crypto v0.0.0-20190219172222-a4c6cb3142f2
-	golang.org/x/lint v0.0.0-20181217174547-8f45f776aaf1 // indirect
+	golang.org/x/crypto v0.0.0-20191011191535-87dc89f01550
 	golang.org/x/oauth2 v0.0.0-20190220154721-9b3c75971fc9 // indirect
-	golang.org/x/sys v0.0.0-20190222072716-a9d3bda3a223 // indirect
-	golang.org/x/tools v0.0.0-20190221204921-83362c3779f5 // indirect
 	gopkg.in/alecthomas/kingpin.v3-unstable v3.0.0-20180810215634-df19058c872c // indirect
 )
 
 go 1.14
+
+replace github.com/golang/lint => golang.org/x/lint v0.0.0-20200302205851-738671d3881b
