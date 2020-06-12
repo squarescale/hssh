@@ -4,9 +4,9 @@ GIT_REVISION :=	$(shell git describe --always --tags --dirty || echo 'n/a')
 GO_BUILD_DATE  ?=$(shell date -u +%FT%T)
 GO_VERSION_PKG ?= github.com/squarescale/hssh
 
-GO_LD_FLAGS ?= -ldflags "-X $(GO_VERSION_PKG)/version.GitCommit=$(GIT_REVISION) \
-                         -X $(GO_VERSION_PKG)/version.GitBranch=$(GIT_BRANCH)   \
-                         -X $(GO_VERSION_PKG)/version.BuildDate=$(GO_BUILD_DATE)"
+GO_LD_FLAGS ?= -ldflags "-X main.GitCommit=$(GIT_REVISION) \
+                         -X main.GitBranch=$(GIT_BRANCH)   \
+                         -X main.BuildDate=$(GO_BUILD_DATE)"
 
 all:
 	export GOPROXY=https://gocenter.io && \

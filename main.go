@@ -21,6 +21,12 @@ import (
 	"github.com/squarescale/sshcommand"
 )
 
+var (
+	GitBranch        string
+	GitCommit        string
+	BuildDate        string
+)
+
 func init() {
 	readline.Stdout = new(libhssh.NoBellStdOut)
 }
@@ -211,7 +217,11 @@ func main() {
 	args := os.Args
 	sc, err := sshcommand.New(args)
 	if err != nil {
-		log.Warnf("fallback: ssh command not parseable with args: %s", os.Args)
+		if len(args) == 2 && args[1] == "-V" {
+			fmt.Fprintf(os.Stderr, "hssh version: %s %s %s\n", GitBranch, GitCommit, BuildDate)
+		} else {
+			log.Warnf("fallback: ssh command not parseable with args: %s", os.Args)
+		}
 		fallback()
 	}
 
