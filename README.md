@@ -36,10 +36,7 @@ hssh can easily be rebuilt using Golang installed version (for instance using gv
 gvm install $(gvm listall | grep go1.13 | tail -1) -b -B && \
 gvm use $(gvm listall | grep go1.13 | tail -1) && \
 git clone https://github.com/squarescale/hssh && \
-cd hssh && \
-export GOPROXY=https://gocenter.io && \
-export GO111MODULE=on && \
-go build .
+cd hssh && make
 ```
 
 The new hssh binary is located in the locally cloned git repository.
