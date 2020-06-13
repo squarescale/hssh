@@ -9,6 +9,6 @@ GO_LD_FLAGS ?= -ldflags "-X main.GitCommit=$(GIT_REVISION) \
                          -X main.BuildDate=$(GO_BUILD_DATE)"
 
 all:
-	export GOPROXY=https://gocenter.io && \
+	export GOPROXY=https://proxy.golang.org && \
 	export GO111MODULE=on && \
 	go build $(GO_LD_FLAGS)
