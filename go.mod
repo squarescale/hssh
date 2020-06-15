@@ -14,7 +14,7 @@ require (
 	github.com/spf13/afero v1.2.1 // indirect
 	github.com/spf13/viper v1.3.1
 	github.com/squarescale/cloudresolver v0.0.0-20191108110146-72fc6953c899
-	github.com/squarescale/sshcommand v0.0.0-20190311110043-d5b1f8b62c87
+	github.com/squarescale/sshcommand v1.0.0
 	github.com/stretchr/testify v1.3.0
 	golang.org/x/crypto v0.0.0-20191011191535-87dc89f01550
 	golang.org/x/oauth2 v0.0.0-20190220154721-9b3c75971fc9 // indirect
