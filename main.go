@@ -140,16 +140,27 @@ func selectHost(hosts []cr.Host, filter string) cr.Host {
 			Selected: `{{ "✔" | green | bold }} {{ "Host" | bold }}: {{ .Id | cyan }}`,
 			Details: `
 instance name: {{ .InstanceName }}
-provider: {{ .Provider   }}
-region: {{ .Region     }}
-zone: {{ .Zone       }}
-id: {{ .Id         }}
-private ipv4: {{ .PrivateIpv4}}
-private ipv6: {{ .PrivateIpv6}}
-private name: {{ .PrivateName}}
-public ipv4: {{ .PublicIpv4 }}
-public ipv6: {{ .PublicIpv6 }}
-public name: {{ .PublicName }}`,
+provider: {{ .Provider }}
+region: {{ .Region }}
+zone: {{ .Zone }}
+id: {{ .Id }}
+private ipv4: {{ .PrivateIpv4 }}
+{{ if .PrivateIpv6 }}private ipv6: {{ .PrivateIpv6 }}
+{{ end -}}
+{{ if .PrivateName }}private name: {{ .PrivateName }}
+{{ end -}}
+{{ if .PublicIpv4 }}public ipv4: {{ .PublicIpv4 }}
+{{ end -}}
+{{ if .PublicIpv6 }}public ipv6: {{ .PublicIpv6 }}
+{{ end -}}
+{{ if .PublicName }}public name: {{ .PublicName }}
+{{ end -}}
+{{ if index .Tags "Project" }}project: {{ index .Tags "Project" }}
+{{ end -}}
+{{ if index .Tags "UserName" }}user: {{ index .Tags "UserName" }}
+{{ end -}}
+{{ if index .Tags "UserEmail" }}email: {{ index .Tags "UserEmail" }}
+{{ end -}}`,
 		}
 
 		hostPrompt := promptui.Select{
