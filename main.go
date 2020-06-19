@@ -140,6 +140,7 @@ func selectHost(hosts []cr.Host, filter string) cr.Host {
 			Selected: `{{ "✔" | green | bold }} {{ "Host" | bold }}: {{ .Id | cyan }}`,
 			Details: `
 instance name: {{ .InstanceName }}
+instance type: {{ .MachineType }}
 provider: {{ .Provider }}
 region: {{ .Region }}
 zone: {{ .Zone }}
