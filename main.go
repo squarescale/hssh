@@ -238,7 +238,11 @@ func main() {
 	}
 
 	desthost := sc.Hostname()
-	if desthost != viper.GetString(fmt.Sprintf("providers.%s.jumphost", provider)) {
+	jumphost := viper.GetString(fmt.Sprintf("providers.%s.jumphost", provider))
+	// TODO: see if regexp can be used/compared/matched both on desthost and jumphost
+	// this would be usefull for Azure where bastion's name is bastion-.....
+	// and use could launch `hssh user@basti*` for instance
+	if desthost != jumphost {
 		args = handleJump(os.Args, provider)
 	}
 
