@@ -8,13 +8,16 @@ before:
     # you may remove this if you don't need go generate
     - go generate ./...
 builds:
-- env:
+-
+  env:
   - CGO_ENABLED=0
+  ldflags: -s -w -X main.GitBranch=master -X main.GitCommit=v{{.Version}}-{{.ShortCommit}} -X main.BuildDate={{.Date}}
   goos:
-    - linux
+    #    - linux
     - darwin
+    #    - windows
   goarch:
-    - 386
+    #- 386
     - amd64
     - arm
     - arm64
@@ -47,12 +50,12 @@ archives:
     - goos: windows
       format: zip
 
-release:
-  github:
-    owner: squarescale
-    name: hssh
+        #release:
+        #  github:
+        #    owner: squarescale
+        #    name: hssh
 
-brews:
-  - github:
-      owner: squarescale
-      name: homebrew-hssh
+        #brews:
+        #  - github:
+        #      owner: squarescale
+        #      name: homebrew-hssh
