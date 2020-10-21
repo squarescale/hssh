@@ -54,7 +54,7 @@ archives:
         #    owner: squarescale
         #    name: hssh
 
-        #brews:
-        #  - github:
-        #      owner: squarescale
-        #      name: homebrew-hssh
+brews:
+  - tap:
+      owner: squarescale
+      name: homebrew-hssh
