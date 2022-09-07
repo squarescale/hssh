@@ -432,6 +432,8 @@ github.com/squarescale/cloudresolver v1.2.0 h1:U0YEPuyXprd1St3bSXTWAKJ2nZ8sqbMqG
 github.com/squarescale/cloudresolver v1.2.0/go.mod h1:TEP9AXVBiUlEnIXQN58+FMPHdZsFctbXDt1gwMEAY08=
 github.com/squarescale/sshcommand v1.0.0 h1:nZwXdlC83oJfkU1ciIBnCpw2kXecx7mluvGcCnVQhmc=
 github.com/squarescale/sshcommand v1.0.0/go.mod h1:7yNkywvu2IcojFDlkz9c6R+H7HDCCXAFgpiw3JbaFA4=
+github.com/squarescale/sshcommand v1.1.0 h1:hEsCEzOxQe6RGEUcfPiPA+uRPMS6NqDXBuVfeMECWGw=
+github.com/squarescale/sshcommand v1.1.0/go.mod h1:lED4vYA4ZWH9FVxJxZdVdXeqQ3fW+gY4JbFB3M5N2h0=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/objx v0.1.1/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/objx v0.4.0/go.mod h1:YvHI0jy2hoMjB+UWwv71VJQ9isScKT/TqJzVSSt89Yw=
