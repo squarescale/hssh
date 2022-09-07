@@ -5,8 +5,8 @@ require (
 	github.com/manifoldco/promptui v0.9.0
 	github.com/sirupsen/logrus v1.9.0
 	github.com/spf13/viper v1.13.0
-	github.com/squarescale/cloudresolver v1.2.1
-	github.com/squarescale/sshcommand v1.1.1
+	github.com/squarescale/cloudresolver v1.2.2
+	github.com/squarescale/sshcommand v1.1.2
 	github.com/stretchr/testify v1.8.0
 	golang.org/x/crypto v0.0.0-20220829220503-c86fa9a7ed90
 )
