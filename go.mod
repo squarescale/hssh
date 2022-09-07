@@ -67,7 +67,7 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
-go 1.18
+go 1.19
 
 replace github.com/golang/lint => golang.org/x/lint v0.0.0-20200302205851-738671d3881b
 
