@@ -13,7 +13,7 @@ require (
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 )
 
-go 1.16
+go 1.17
 
 replace github.com/golang/lint => golang.org/x/lint v0.0.0-20200302205851-738671d3881b
 
