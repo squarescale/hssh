@@ -14,7 +14,7 @@ require (
 	google.golang.org/genproto v0.0.0-20201021134325-0d71844de594 // indirect
 )
 
-go 1.14
+go 1.16
 
 replace github.com/golang/lint => golang.org/x/lint v0.0.0-20200302205851-738671d3881b
 

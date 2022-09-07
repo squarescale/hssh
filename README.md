@@ -47,8 +47,8 @@ Specifying `-i you-private-key` file as a command line option will only work for
 hssh can easily be rebuilt using Golang installed version (for instance using gvm https://github.com/moovweb/gvm):
 
 ```
-gvm install $(gvm listall | grep go1.14 | tail -1) -b -B && \
-gvm use $(gvm listall | grep go1.14 | tail -1) && \
+gvm install $(gvm listall | grep go1.16 | tail -1) -b -B && \
+gvm use $(gvm listall | grep go1.16 | tail -1) && \
 git clone https://github.com/squarescale/hssh && \
 cd hssh && make
 ```
